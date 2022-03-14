@@ -8,6 +8,7 @@ import pure_java.domain.Student;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -90,6 +91,23 @@ public class StreamTest {
             assertThat(actual.get()).isEqualTo(4);
             assertThat(actual).isInstanceOf(Optional.class);
         }
+    }
+
+    /**
+     * (중간 연산)
+     * 고유한 엘러먼트(중복된 엘러먼트 제거)로 구성된 스트림을 반환한다.
+     *
+     * distinct 외에 다른 중간 연산이 필요하지 않다면 최종 연산에서 Collectors.toSet()을 고려해도 좋을 것 같다.
+     */
+    @Test
+    void distinct() {
+        List<String> nameList = studentList.stream()
+                .map(Student::getName)
+                .distinct()
+                .collect(Collectors.toList());
+
+        assertThat(nameList.size()).isNotEqualTo(4);
+        assertThat(nameList.size()).isEqualTo(3);
     }
 }
 
