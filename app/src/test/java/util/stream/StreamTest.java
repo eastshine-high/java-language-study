@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import pure_java.domain.Student;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,20 +36,28 @@ public class StreamTest {
      * map(중간 연산)
      * 스트림의 요소에 저장된 값 중에서 원하는 필드만 뽑아내거나 특정 형태로 변환해야 할 때 사용한다.
      */
+    @Nested
     class map{
 
         @Test
         void 원하는_필드만_뽑아낸다() {
-            studentList.stream()
+
+            List<String> names = studentList.stream()
                     .map(student -> student.getName())
-                    .forEach(System.out::println);
+                    .collect(Collectors.toList());
+
+            assertThat(names).anySatisfy(name -> {
+                assertThat(name).isEqualTo("Chloe");
+            });
         }
 
         @Test
         void 특정_형태로_변환한다() {
-            stringList.stream()
+            List<String> substrings = stringList.stream()
                     .map(string -> string.substring(0, 2))
-                    .forEach(System.out::println);
+                    .collect(Collectors.toList());
+
+            assertThat(substrings).containsExactly("ab", "ab", "kl", "pq");
         }
     }
 
