@@ -4,11 +4,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import pure_java.domain.Student;
+import pure_java.domain.StudentDto;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -57,8 +58,38 @@ public class StreamTest {
                     .map(string -> string.substring(0, 2))
                     .collect(Collectors.toList());
 
-            assertThat(substrings).containsExactly("ab", "ab", "kl", "pq");
+            assertThat(substrings)
+                    .containsExactly("ab", "ab", "kl", "pq");
         }
+
+        @Test
+        void 새로운_객체스트림을_생성한다() {
+            List<Object> dtoList = studentList.stream()
+                    .map(StudentDto::new)
+                    .collect(Collectors.toList());
+
+            assertThat(dtoList).allSatisfy(dto -> {
+                assertThat(dto).isInstanceOf(StudentDto.class);
+            });
+        }
+    }
+
+    /**
+     * (중간 연산)
+     * 고유한 엘러먼트(중복된 엘러먼트 제거)로 구성된 스트림을 반환한다.
+     *
+     * distinct 외에 다른 중간 연산이 필요하지 않다면 최종 연산에서 Collectors.toSet()을 고려해도 좋을 것 같다.
+     */
+    @Test
+    void distinct() {
+        List<String> nameList = studentList.stream()
+                .map(Student::getName)
+                .distinct()
+                .collect(Collectors.toList());
+
+        assertThat(nameList.size())
+                .isNotEqualTo(4)
+                .isEqualTo(3);
     }
 
     /**
@@ -85,7 +116,8 @@ public class StreamTest {
                     .map(Student::getScore)
                     .reduce(0, (a, b) -> a + b); // Integer::sum으로도 가능
 
-            assertThat(actual).isEqualTo(10);
+            assertThat(actual)
+                    .isEqualTo(10);
         }
 
         /**
@@ -102,21 +134,17 @@ public class StreamTest {
         }
     }
 
+
     /**
-     * (중간 연산)
-     * 고유한 엘러먼트(중복된 엘러먼트 제거)로 구성된 스트림을 반환한다.
-     *
-     * distinct 외에 다른 중간 연산이 필요하지 않다면 최종 연산에서 Collectors.toSet()을 고려해도 좋을 것 같다.
+     * (최종 연산)리덕션 연산의 특별한 형태이다. 다음 연산과 동등하다. return reduce(Integer::min);
      */
     @Test
-    void distinct() {
-        List<String> nameList = studentList.stream()
-                .map(Student::getName)
-                .distinct()
-                .collect(Collectors.toList());
+    void min() {
+         OptionalInt minX = studentList.stream()
+                 .mapToInt(Student::getScore)
+                 .min();
 
-        assertThat(nameList.size()).isNotEqualTo(4);
-        assertThat(nameList.size()).isEqualTo(3);
+        assertThat(minX.getAsInt()).isEqualTo(1);
+        assertThat(minX).isInstanceOf(OptionalInt.class);
     }
 }
-
