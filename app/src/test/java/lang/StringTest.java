@@ -13,9 +13,7 @@ public class StringTest {
 
         String[] actuals = string.split("");
 
-        for(String each : actuals){
-            System.out.println(each);
-        }
+        assertThat(actuals).containsExactly("1", "2", "3");
     }
 
     @Test
@@ -50,8 +48,8 @@ public class StringTest {
     void replaceAll() {
         String string = "(10,10)-(14,15)";
 
-        String actual = string.replaceAll("[\\(\\-\\)]", "");
+        String actual = string.replaceAll("[\\(\\-\\)\\,]", ""); // 사용한 특수 기호 모두 제거
 
-        System.out.println(actual);
+        assertThat(actual).isEqualTo("10101415");
     }
 }
