@@ -21,7 +21,7 @@ public class MatcherTest {
     /*
      * The matches method attempts to match the entire input sequence against the pattern.
      */
-    @DisplayName("matches는 입력 문자열이 정규 표현식과 일치해야 한다.")
+    @DisplayName("matches는 전체 입력 문자열이 정규 표현식과 일치해야 한다.")
     @Test
     void matches() {
         String inputSequence = "Hi David";
