@@ -42,9 +42,8 @@ public class StreamTest {
 
         @Test
         void 원하는_필드만_뽑아낸다() {
-
             List<String> names = studentList.stream()
-                    .map(student -> student.getName())
+                    .map(student -> student.getName()) // Student::getName
                     .collect(Collectors.toList());
 
             assertThat(names).anySatisfy(name -> {
