@@ -57,6 +57,7 @@ public class LocalTimeTest {
 
     /**
      * 인스턴스의 시간이 특정 시간보다 이후인지 확인한다.
+     * Cf. 활용 예시, 오브젝트 p.150
      *
      * Returns: true, 특정 시간보다 이후일 경우
      */
