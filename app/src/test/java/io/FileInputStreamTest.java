@@ -53,7 +53,7 @@ public class FileInputStreamTest {
 
 
     /**
-     * 아규먼트 값(N)만큼 읽는다. N은 Byte의 최대 크기까지 입력할 수 있다.
+     * 아규먼트 값(N Bytes)만큼 읽는다.
      */
     @Test
     void readNBytes() {
