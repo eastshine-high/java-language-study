@@ -57,15 +57,26 @@ public class MatcherTest {
         assertThat(matcher.find()).isTrue();
     }
 
-    @DisplayName("group메소드를 이용하여 매칭 연산으로 캡쳐된 인자를 추출할 수 있다.")
+    @DisplayName("group메소드를 이용하여 find 메소드로로 캡쳐된 인자를 추출할 수 있다.")
     @Test
     void group() {
          Pattern pattern = Pattern.compile("\\(([0-9]{1,2}),([0-9]{1,2})\\)");
          Matcher matcher = pattern.matcher("(22,52)");
+
          matcher.find();
 
          assertThat(matcher.group(0)).isEqualTo(("(22,52)"));
          assertThat(matcher.group(1)).isEqualTo("22");
          assertThat(matcher.group(2)).isEqualTo("52");
+    }
+
+    @DisplayName("주어진 대치 문자열로 패턴에 match된 문자들을 대치합니다.")
+    @Test
+    void replaceAll() {
+        String phoneNumber = "010-2677-2222";
+        Pattern pattern = Pattern.compile("\\D");
+        Matcher matcher = pattern.matcher(phoneNumber);
+
+        assertThat(matcher.replaceAll("")).isEqualTo("01026772222"); // 숫자로만 구성된 문자열로 만든다.
     }
 }
